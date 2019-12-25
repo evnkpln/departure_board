@@ -7,7 +7,7 @@
   <th>Status</th>
   <% @departures.each do | departure | %>
     <tr>
-      <td><%= departure.time %></td>
+      <td><%= departure.formatted_time %></td>
       <td><%= departure.destination %></td>
       <td><%= departure.train_id %></td>
       <td><%= departure.track_id %></td>
@@ -15,4 +15,3 @@
     </tr>
   <% end %>
 </table>
-<p>Find me in app/views/departures/index.html.erb</p>

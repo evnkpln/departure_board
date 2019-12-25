@@ -9,12 +9,18 @@ RSpec.feature 'Departures' do
 
       visit departures_path
 
-      # TODO: Too many expectations. Group or break up.
       expect(page).to have_content departure.destination
       expect(page).to have_content departure.train_id
       expect(page).to have_content departure.track_id
       expect(page).to have_content departure.status
-      expect(page).to have_content departure.time # TODO: Formatting
+    end
+
+    it 'displays times in HH:MM format' do
+      FactoryBot.create(:departure, time: '12:30 PM')
+
+      visit departures_path
+
+      expect(page).to have_content '12:30 PM'
     end
 
     xit 'sorts departures by time'
@@ -42,8 +48,7 @@ RSpec.feature 'Departures' do
       destination: 'Foxboro',
       train_id: 1234,
       track_id: 5678,
-      status: 'On Time',
-      time: Time.current
+      status: 'On Time'
     }
   end
 end

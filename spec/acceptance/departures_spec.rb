@@ -14,9 +14,13 @@ RSpec.feature 'Departures' do
       expect(page).to have_content departure.train_id
       expect(page).to have_content departure.track_id
       expect(page).to have_content departure.status
+      expect(page).to have_content departure.time # TODO: Formatting
     end
 
     xit 'sorts departures by time'
+
+    # Maybe leave this one to unit test or wrap into sort spec.
+    xit 'properly sorts across multiple dates'
 
     xit 'displays dynamic status'
 
@@ -35,7 +39,8 @@ RSpec.feature 'Departures' do
       destination: 'Foxboro',
       train_id: 1234,
       track_id: 5678,
-      status: 'On Time'
+      status: 'On Time',
+      time: Time.current
     }
   end
 end

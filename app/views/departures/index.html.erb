@@ -1,11 +1,13 @@
 <h1>Departures#index</h1>
 <table>
+  <th>Time</th>
   <th>Destination</th>
   <th>Train #</th>
   <th>Track #</th>
   <th>Status</th>
   <% @departures.each do | departure | %>
     <tr>
+      <td><%= departure.time %></td>
       <td><%= departure.destination %></td>
       <td><%= departure.train_id %></td>
       <td><%= departure.track_id %></td>

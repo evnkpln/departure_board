@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_24_195833) do
+ActiveRecord::Schema.define(version: 2019_12_25_003649) do
 
   create_table "departures", force: :cascade do |t|
     t.string "origin"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2019_12_24_195833) do
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "time"
   end
 
 end

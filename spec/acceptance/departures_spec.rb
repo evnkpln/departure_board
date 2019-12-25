@@ -28,10 +28,13 @@ RSpec.feature 'Departures' do
 
     xit 'separates north/south station departures'
 
-    # Bells and whistles
+    # Stretch goals
     xit 'updates periodically'
 
     xit 'updates without refreshing' # can we test this reasonably?
+
+    # Low priority since it's all local, but you never know. . .
+    xit 'handles time zones'
   end
 
   def basic_departure_params

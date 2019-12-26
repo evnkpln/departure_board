@@ -1,4 +1,6 @@
 class Departure < ApplicationRecord
+  scope :chronological, -> { order(time: :asc) }
+
   def formatted_time
     return nil if time.nil?
 

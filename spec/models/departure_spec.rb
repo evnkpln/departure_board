@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Departure, type: :model do
+  describe '.chronological' do
+    it 'returns departures sorted chronologically' do
+      mid_dep = FactoryBot.create(:departure, time: Time.current)
+      last_dep = FactoryBot.create(:departure, time: Time.current + 2.hours)
+      first_dep = FactoryBot.create(:departure, time: Time.current - 2.hours)
+
+      expect(Departure.chronological.to_a).to eq([first_dep, mid_dep, last_dep])
+    end
+  end
   describe '#formatted_time' do
     it 'displays time in HH:MM A/PM format' do
       departure = FactoryBot.build(:departure, time: '12:30 PM')

@@ -1,5 +1,5 @@
 class DeparturesController < ApplicationController
   def index
-    @departures = Departure.all
+    @departures = Departure.chronological
   end
 end

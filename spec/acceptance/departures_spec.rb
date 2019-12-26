@@ -23,7 +23,21 @@ RSpec.feature 'Departures' do
       expect(page).to have_content '12:30 PM'
     end
 
-    xit 'sorts departures by time'
+    it 'sorts departures by time' do
+      FactoryBot.create(:departure, train_id: 2222, time: Time.current)
+      FactoryBot.create(:departure, train_id: 1111,
+                                    time: Time.current - 2.hours)
+      FactoryBot.create(:departure, train_id: 3333,
+                                    time: Time.current + 2.hours)
+
+      visit departures_path
+
+      first_dep_index = page.body.index('1111')
+      middle_dep_index = page.body.index('2222')
+      last_dep_index = page.body.index('3333')
+      expect(first_dep_index).to be < middle_dep_index
+      expect(middle_dep_index).to be < last_dep_index
+    end
 
     # Maybe leave this one to unit test or wrap into sort spec.
     xit 'properly sorts across multiple dates'

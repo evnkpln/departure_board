@@ -11,6 +11,21 @@ class Departure < ApplicationRecord
     end
   end
 
+  def self.build_from_api(response)
+    departures = []
+    response.each do |data|
+      params = {
+        status: data[:status],
+        time: data[:scheduled_time],
+        destination: data[:destination],
+        train_id: data[:train_id],
+        track_id: data[:track]
+      }
+      departures << new(params)
+    end
+    departures
+  end
+
   def formatted_time
     return nil if time.nil?
 

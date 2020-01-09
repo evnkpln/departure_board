@@ -1,5 +1,8 @@
 class DeparturesController < ApplicationController
   def index
-    @departures = Departure.chronological
+    response = Adapter::Mbta.predictions
+    @departures = Departure.build_from_api(response)
+      .sort { |a, b| a.time <=> b.time }
+    # @departures = Departure.chronological
   end
 end

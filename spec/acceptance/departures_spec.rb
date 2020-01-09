@@ -39,9 +39,6 @@ RSpec.feature 'Departures' do
       expect(middle_dep_index).to be < last_dep_index
     end
 
-    # Maybe leave this one to unit test or wrap into sort spec.
-    xit 'properly sorts across multiple dates'
-
     xit 'displays dynamic status'
 
     xit 'pulls data from the API adapter'

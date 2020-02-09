@@ -6,21 +6,24 @@ module Adapter
     PREDICTIONS_URL = "#{ENDPOINT_URL}/predictions".freeze
     SOUTH_STATION_CODE = 'place-sstat'.freeze
 
+    def self.predictions
+      parse_response(raw_predictions)
+    end
+
     def self.parse_response(response)
-      parsed = JSON.parse(response.body)
-      data = parsed['data']
-      included = parsed['included']
+      parsed_json = JSON.parse(response.body)
+      data = parsed_json['data']
+      included = parsed_json['included']
 
       output = data.map do |prediction|
         dep_hash = {
           status: prediction['attributes']['status'],
           predicted_time: prediction['attributes']['departure_time']
         }
-        schedule_id = prediction['relationships']['schedule']['data']['id']
-        schedule = included.find do |elem|
-          elem['id'] == schedule_id
-        end
+        # add scheduled_tim e
+        dep_hash.merge!(scheduled_time(prediction))
         dep_hash.merge!(scheduled_time: schedule['attributes']['departure_time'])
+        # add trip data
         trip_id = prediction['relationships']['trip']['data']['id']
         trip = included.find do |elem|
           elem['id'] == trip_id
@@ -29,6 +32,7 @@ module Adapter
           destination: trip['attributes']['headsign'],
           train_id: trip['attributes']['name']
         )
+        # add track
         stop_id = prediction['relationships']['stop']['data']['id']
         stop = included.find do |elem|
           elem['id'] == stop_id
@@ -43,10 +47,6 @@ module Adapter
 
     def self.raw_predictions
       get(PREDICTIONS_URL, query: predictions_query)
-    end
-
-    def self.predictions
-      parse_response(raw_predictions)
     end
 
     def self.predictions_query
@@ -93,6 +93,15 @@ module Adapter
 
     def self.endpoint
       ENDPOINT_URL
+    end
+
+    private
+
+    def add_scheduled_time
+      schedule_id = prediction['relationships']['schedule']['data']['id']
+      schedule = included.find do |elem|
+        elem['id'] == schedule_id
+      end
     end
   end
 end

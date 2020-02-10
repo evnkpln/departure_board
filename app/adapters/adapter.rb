@@ -20,10 +20,13 @@ module Adapter
           status: prediction['attributes']['status'],
           predicted_time: prediction['attributes']['departure_time']
         }
-        # add scheduled_tim e
-        dep_hash.merge!(scheduled_time(prediction))
+        # TODO: Extract method: add scheduled_tim e
+        schedule_id = prediction['relationships']['schedule']['data']['id']
+        schedule = included.find do |elem|
+          elem['id'] == schedule_id
+        end
         dep_hash.merge!(scheduled_time: schedule['attributes']['departure_time'])
-        # add trip data
+        # TODO: Extract method: add trip data
         trip_id = prediction['relationships']['trip']['data']['id']
         trip = included.find do |elem|
           elem['id'] == trip_id
@@ -32,7 +35,7 @@ module Adapter
           destination: trip['attributes']['headsign'],
           train_id: trip['attributes']['name']
         )
-        # add track
+        # TODO: Extract method: add track
         stop_id = prediction['relationships']['stop']['data']['id']
         stop = included.find do |elem|
           elem['id'] == stop_id
@@ -93,15 +96,6 @@ module Adapter
 
     def self.endpoint
       ENDPOINT_URL
-    end
-
-    private
-
-    def add_scheduled_time
-      schedule_id = prediction['relationships']['schedule']['data']['id']
-      schedule = included.find do |elem|
-        elem['id'] == schedule_id
-      end
     end
   end
 end

@@ -4,40 +4,48 @@ require 'rails_helper'
 # not the conventional usage of it.
 RSpec.feature 'Departures' do
   describe '#index' do
-    it 'displays departures' do
-      departure = FactoryBot.create(:departure, basic_departure_params)
-
-      visit departures_path
-
-      expect(page).to have_content departure.destination
-      expect(page).to have_content departure.train_id
-      expect(page).to have_content departure.track_id
-      expect(page).to have_content departure.status
-    end
-
-    it 'displays times in HH:MM format' do
-      FactoryBot.create(:departure, time: '12:30 PM')
-
-      visit departures_path
-
-      expect(page).to have_content '12:30 PM'
-    end
-
-    it 'sorts departures by time' do
-      FactoryBot.create(:departure, train_id: 2222, time: Time.current)
-      FactoryBot.create(:departure, train_id: 1111,
-                                    time: Time.current - 2.hours)
-      FactoryBot.create(:departure, train_id: 3333,
-                                    time: Time.current + 2.hours)
-
-      visit departures_path
-
-      first_dep_index = page.body.index('1111')
-      middle_dep_index = page.body.index('2222')
-      last_dep_index = page.body.index('3333')
-      expect(first_dep_index).to be < middle_dep_index
-      expect(middle_dep_index).to be < last_dep_index
-    end
+    # FIXME: These expectations were built around caching data in a local
+    # database, but the app is now populating directly from the API. Steps to
+    # take:
+    # 1. Setup webmock to block external calls.
+    # 2. Use doubles for either the API (more complete testing) or the
+    # adapter (probably a lot easier.)
+    # 3. Build expectations around API behavior.
+    #
+    # it 'displays departures' do
+    #   departure = FactoryBot.create(:departure, basic_departure_params)
+    #
+    #   visit departures_path
+    #
+    #   expect(page).to have_content departure.destination
+    #   expect(page).to have_content departure.train_id
+    #   expect(page).to have_content departure.track_id
+    #   expect(page).to have_content departure.status
+    # end
+    #
+    # it 'displays times in HH:MM format' do
+    #   FactoryBot.create(:departure, time: '12:30 PM')
+    #
+    #   visit departures_path
+    #
+    #   expect(page).to have_content '12:30 PM'
+    # end
+    #
+    # it 'sorts departures by time' do
+    #   FactoryBot.create(:departure, train_id: 2222, time: Time.current)
+    #   FactoryBot.create(:departure, train_id: 1111,
+    #                                 time: Time.current - 2.hours)
+    #   FactoryBot.create(:departure, train_id: 3333,
+    #                                 time: Time.current + 2.hours)
+    #
+    #   visit departures_path
+    #
+    #   first_dep_index = page.body.index('1111')
+    #   middle_dep_index = page.body.index('2222')
+    #   last_dep_index = page.body.index('3333')
+    #   expect(first_dep_index).to be < middle_dep_index
+    #   expect(middle_dep_index).to be < last_dep_index
+    # end
 
     xit 'displays dynamic status'
 

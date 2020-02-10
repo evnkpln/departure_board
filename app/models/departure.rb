@@ -1,4 +1,6 @@
 class Departure < ApplicationRecord
+  # TODO: This scope is currently unused since we're not hitting the database.
+  # Consider removing it.
   scope :chronological, -> { order(time: :asc) }
 
   # Beware. This destroys all records. Should be updated to something less

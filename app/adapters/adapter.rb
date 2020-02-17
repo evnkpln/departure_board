@@ -5,6 +5,7 @@ module Adapter
     SCHEDULES_URL = "#{ENDPOINT_URL}/schedules".freeze
     PREDICTIONS_URL = "#{ENDPOINT_URL}/predictions".freeze
     SOUTH_STATION_CODE = 'place-sstat'.freeze
+    NORTH_STATION_CODE = 'place-north'.freeze
 
     def self.predictions
       parse_response(raw_predictions)
@@ -35,14 +36,15 @@ module Adapter
           destination: trip['attributes']['headsign'],
           train_id: trip['attributes']['name']
         )
-        # TODO: Extract method: add track
+        # TODO: Extract method: add stop data
         stop_id = prediction['relationships']['stop']['data']['id']
         stop = included.find do |elem|
           elem['id'] == stop_id
         end
         track = stop['attributes']['platform_code']# || 'TBD'
-        dep_hash.merge(
-          track: track
+        dep_hash.merge!(
+          track: track,
+          origin: stop_id
         )
       end
       output
@@ -53,7 +55,7 @@ module Adapter
     end
 
     def self.predictions_query
-      south_station.merge(commuter_rail).merge(outbound).merge(include_schedule)
+      n_s_stations.merge(commuter_rail).merge(outbound).merge(include_schedule)
     end
 
     def self.schedules
@@ -72,14 +74,6 @@ module Adapter
       { 'filter[route_type]': 2 }
     end
 
-    def self.schedules_query
-      next_two_hours.merge(south_station).merge(first_stop)
-    end
-
-    def self.first_stop
-      { 'filter[stop_sequence]': 'first' }
-    end
-
     def self.next_two_hours
       filter_min = Time.current - 5.minutes
       filter_max = Time.current + 2.hours + 5.minutes
@@ -90,8 +84,8 @@ module Adapter
       }
     end
 
-    def self.south_station
-      { 'filter[stop]': SOUTH_STATION_CODE }
+    def self.n_s_stations
+      { 'filter[stop]': "#{SOUTH_STATION_CODE},#{NORTH_STATION_CODE}" }
     end
 
     def self.endpoint

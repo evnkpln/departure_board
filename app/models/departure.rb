@@ -6,7 +6,7 @@ class Departure < ApplicationRecord
   # Beware. This destroys all records. Should be updated to something less
   # brittle soon.
   def self.update(adapter)
-    param_array = adapter.call
+    param_array = adapter.predictions
     destroy_all
     param_array.each do |params|
       create(params)
@@ -18,6 +18,7 @@ class Departure < ApplicationRecord
     response.each do |data|
       params = {
         status: data[:status],
+        origin: data[:origin],
         time: data[:scheduled_time],
         destination: data[:destination],
         train_id: data[:train_id],

@@ -23,7 +23,7 @@ RSpec.describe Departure, type: :model do
         status: 'Boarding',
         time: nil # TODO: does it make sense to get involved in this?
       }
-      allow(adapter).to receive(:call).and_return [departure_params]
+      allow(adapter).to receive(:predictions).and_return [departure_params]
 
       # TODO: Consider returning a collection instead of mutating.
       Departure.update(adapter)
@@ -32,7 +32,7 @@ RSpec.describe Departure, type: :model do
     end
 
     it 'destroys old departures' do
-      allow(adapter).to receive(:call).and_return []
+      allow(adapter).to receive(:predictions).and_return []
       FactoryBot.create(:departure)
 
       Departure.update(adapter)

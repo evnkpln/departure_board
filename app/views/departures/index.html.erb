@@ -1,6 +1,7 @@
 <h1>Departures#index</h1>
 <table>
   <th>Time</th>
+  <th>Origin</th>
   <th>Destination</th>
   <th>Train #</th>
   <th>Track #</th>
@@ -8,6 +9,7 @@
   <% @departures.each do | departure | %>
     <tr>
       <td><%= departure.formatted_time %></td>
+      <td><%= departure.origin %></td>
       <td><%= departure.destination %></td>
       <td><%= departure.train_id %></td>
       <td><%= departure.track_id %></td>

@@ -44,7 +44,7 @@ module Adapter
         track = stop['attributes']['platform_code']# || 'TBD'
         dep_hash.merge!(
           track: track,
-          origin: stop_id
+          origin: clip_track_id(stop_id)
         )
       end
       output
@@ -90,6 +90,13 @@ module Adapter
 
     def self.endpoint
       ENDPOINT_URL
+    end
+
+    private
+
+    # clip track_ids off of stop id for origin
+    def self.clip_track_id(stop_id)
+      stop_id.sub(/\-(.*)/, '')
     end
   end
 end

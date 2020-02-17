@@ -1,7 +1,7 @@
-<h1>Departures#index</h1>
+<h1>Departures</h1>
+<h2>North Station</h2>
 <table class='departures north_station'>
   <th>Time</th>
-  <th>Origin</th>
   <th>Destination</th>
   <th>Train #</th>
   <th>Track #</th>
@@ -9,7 +9,6 @@
   <% @north_station_departures.each do | departure | %>
     <tr>
       <td><%= departure.formatted_time %></td>
-      <td><%= departure.origin %></td>
       <td><%= departure.destination %></td>
       <td><%= departure.train_id %></td>
       <td><%= departure.track_id %></td>
@@ -18,9 +17,9 @@
   <% end %>
 </table>
 
+<h2>South Station</h2>
 <table class='departures south_station'>
   <th>Time</th>
-  <th>Origin</th>
   <th>Destination</th>
   <th>Train #</th>
   <th>Track #</th>
@@ -28,7 +27,6 @@
   <% @south_station_departures.each do | departure | %>
     <tr>
       <td><%= departure.formatted_time %></td>
-      <td><%= departure.origin %></td>
       <td><%= departure.destination %></td>
       <td><%= departure.train_id %></td>
       <td><%= departure.track_id %></td>

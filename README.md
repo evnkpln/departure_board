@@ -1,4 +1,7 @@
-# README
+# Departure Board
+This is a small project I wrote for an interview process. The task was to present a simple departure board drawing data from the MTA API. The following notes were written at the time of the interview but still provide some context on my thought process and the state of the project when I left off.
+
+# Notes
 
 There's a lot of extra structure here based on some implementation and
 architecture ideas I had while treating this project as if it would be used at
@@ -27,5 +30,3 @@ for the process include:
 * Using an API token (with figaro to keep it out of the repo)
 * Using AJAX to refresh data without reloading the page.
 * A healthy dose of refactoring.
-
-Thank you very much for your consideration!
